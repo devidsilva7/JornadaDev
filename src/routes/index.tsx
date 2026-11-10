@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+<<<<<<< HEAD
 import { lazy, Suspense, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { LoginScreen, type Player } from "@/components/game/LoginScreen";
@@ -15,11 +16,18 @@ const TrailGameScreen = lazy(() =>
     default: module.TrailGameScreen,
   })),
 );
+=======
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { LoginScreen, type Player } from "@/components/game/LoginScreen";
+import { GameScreen } from "@/components/game/GameScreen";
+>>>>>>> 46fd15a1e33b317259ac4b8a4ebd74ccd635075d
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Jornada EEEP: O Desafio de Desenvolvimento de Sistemas" },
+<<<<<<< HEAD
       {
         name: "description",
         content:
@@ -30,6 +38,11 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "RPG narrativo interativo da Expotec — EEEP Dr. Salomão Alves de Moura.",
       },
+=======
+      { name: "description", content: "RPG narrativo da Expotec na EEEP Dr. Salomão Alves de Moura. Viva os 3 anos do curso de DS." },
+      { property: "og:title", content: "Jornada EEEP: O Desafio de DS" },
+      { property: "og:description", content: "RPG narrativo interativo da Expotec — EEEP Dr. Salomão Alves de Moura." },
+>>>>>>> 46fd15a1e33b317259ac4b8a4ebd74ccd635075d
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -39,6 +52,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [player, setPlayer] = useState<Player | null>(null);
+<<<<<<< HEAD
   const [avatar, setAvatar] = useState<AvatarKind | null>(null);
   const [stage, setStage] = useState<"login" | "character" | "game">("login");
   const restart = () => {
@@ -110,11 +124,23 @@ function Index() {
               setStage("character");
             }}
           />
+=======
+  return (
+    <AnimatePresence mode="wait">
+      {player ? (
+        <motion.div key="game" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+          <GameScreen player={player} onExit={() => setPlayer(null)} />
+        </motion.div>
+      ) : (
+        <motion.div key="login" exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.4 }}>
+          <LoginScreen onStart={setPlayer} />
+>>>>>>> 46fd15a1e33b317259ac4b8a4ebd74ccd635075d
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
+<<<<<<< HEAD
 
 function normalizePlayer(player: Player | null | undefined): Player | null {
   if (!player || typeof player !== "object") return null;
@@ -164,3 +190,5 @@ function StageFailure({ onBack }: { onBack: () => void }) {
     </main>
   );
 }
+=======
+>>>>>>> 46fd15a1e33b317259ac4b8a4ebd74ccd635075d
