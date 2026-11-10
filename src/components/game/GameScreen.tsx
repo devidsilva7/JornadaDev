@@ -27,7 +27,7 @@ export function GameScreen({ player, onExit }: { player: Player; onExit: () => v
   const [copied, setCopied] = useState(false);
 
   const done = idx >= scenarios.length;
-  const sc = scenarios[Math.min(idx, scenarios.length - 1)];
+  const sc = scenarios[Math.min(idx, scenarios.length - 1)]!;
 
   const choose = (c: Choice) => {
     setPicked(c);
