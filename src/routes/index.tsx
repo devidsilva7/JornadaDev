@@ -1,23 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { LoginScreen, type Player } from "@/components/game/LoginScreen";
+import { GameScreen } from "@/components/game/GameScreen";
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Jornada EEEP: O Desafio de Desenvolvimento de Sistemas" },
+      { name: "description", content: "RPG narrativo da Expotec na EEEP Dr. Salomão Alves de Moura. Viva os 3 anos do curso de DS." },
+      { property: "og:title", content: "Jornada EEEP: O Desafio de DS" },
+      { property: "og:description", content: "RPG narrativo interativo da Expotec — EEEP Dr. Salomão Alves de Moura." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [player, setPlayer] = useState<Player | null>(null);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <AnimatePresence mode="wait">
+      {player ? (
+        <motion.div key="game" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+          <GameScreen player={player} onExit={() => setPlayer(null)} />
+        </motion.div>
+      ) : (
+        <motion.div key="login" exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.4 }}>
+          <LoginScreen onStart={setPlayer} />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
