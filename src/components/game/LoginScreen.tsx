@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import { User, Phone, MapPin, Rocket } from "lucide-react";
+import { User, Phone, MapPin } from "lucide-react";
 import collage from "@/assets/collage.jpg";
 
 export type Player = { nome: string; contato: string; local: string };
@@ -60,7 +60,7 @@ export function LoginScreen({ onStart }: { onStart: (p: Player) => void }) {
             ))}
           </div>
           <button type="submit" className="mt-8 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-gradient-primary font-display text-lg font-bold text-primary-foreground transition hover:-translate-y-0.5 hover:shadow-glow">
-            Iniciar Jornada <Rocket className="h-5 w-5" />
+            Iniciar Jornada 🚀
           </button>
         </motion.form>
       </section>
