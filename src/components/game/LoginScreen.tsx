@@ -8,7 +8,6 @@ export type Player = { nome: string; contato: string; local: string };
 export function LoginScreen({ onStart }: { onStart: (p: Player) => void }) {
   const [f, setF] = useState<Player>({ nome: "", contato: "", local: "" });
   const [err, setErr] = useState<Partial<Record<keyof Player, string>>>({});
-<<<<<<< HEAD
   const [submitError, setSubmitError] = useState("");
 
   const submit = (e: FormEvent) => {
@@ -29,29 +28,12 @@ export function LoginScreen({ onStart }: { onStart: (p: Player) => void }) {
       console.error("Não foi possível iniciar a jornada.", error);
       setSubmitError("Não foi possível iniciar agora. Confira os dados e tente novamente.");
     }
-=======
-
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    const n: typeof err = {};
-    if (f.nome.trim().length < 2) n.nome = "Informe seu nome ou apelido";
-    const c = f.contato.trim();
-    if (!/^\S+@\S+\.\S+$/.test(c) && c.replace(/\D/g, "").length < 10) n.contato = "WhatsApp (com DDD) ou e-mail válido";
-    if (f.local.trim().length < 2) n.local = "Informe sua localidade ou turma";
-    setErr(n);
-    if (!Object.keys(n).length) onStart({ nome: f.nome.trim(), contato: c, local: f.local.trim() });
->>>>>>> 46fd15a1e33b317259ac4b8a4ebd74ccd635075d
   };
 
   const fields = [
     { k: "nome" as const, label: "Nome completo ou Apelido", icon: User, ph: "Ex.: Ana Dev" },
-<<<<<<< HEAD
     { k: "contato" as const, label: "WhatsApp", icon: Phone, ph: "(85) 9 9999-9999" },
     { k: "local" as const, label: "Sua Localidade", icon: MapPin, ph: "Aracoiaba" },
-=======
-    { k: "contato" as const, label: "WhatsApp ou E-mail", icon: Phone, ph: "(85) 9 9999-9999" },
-    { k: "local" as const, label: "Sua Localidade ou Turma", icon: MapPin, ph: "Aracoiaba, 3º Ano DS" },
->>>>>>> 46fd15a1e33b317259ac4b8a4ebd74ccd635075d
   ];
 
   return (
@@ -61,13 +43,8 @@ export function LoginScreen({ onStart }: { onStart: (p: Player) => void }) {
         <div className="absolute inset-0 bg-gradient-overlay" />
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7 }} className="relative z-10 px-6 text-center">
           <motion.div animate={{ boxShadow: ["var(--shadow-glow)", "0 0 70px -4px var(--primary-glow)", "var(--shadow-glow)"] }} transition={{ repeat: Infinity, duration: 3 }}
-<<<<<<< HEAD
             className="mx-auto overflow-hidden rounded-3xl border-2 border-primary-glow bg-gradient-primary shadow-glow md:h-44 md:w-44">
             <img src="/logojornadadev.jpeg" alt="Logo JornadaDev" className="h-36 w-36 object-cover md:h-44 md:w-44" />
-=======
-            className="mx-auto flex h-36 w-36 items-center justify-center rounded-3xl border-2 border-primary-glow bg-gradient-primary font-mono text-4xl font-medium text-primary-foreground md:h-44 md:w-44 md:text-5xl">
-            {"<DS/>"}
->>>>>>> 46fd15a1e33b317259ac4b8a4ebd74ccd635075d
           </motion.div>
           <h1 className="mt-8 font-display text-3xl font-bold md:text-4xl">Jornada EEEP</h1>
           <p className="mt-2 text-sm text-muted-foreground md:text-base">EEEP Dr. Salomão Alves de Moura — Expotec</p>
@@ -85,21 +62,14 @@ export function LoginScreen({ onStart }: { onStart: (p: Player) => void }) {
                 <span className="text-sm font-medium">{label}</span>
                 <div className="mt-1.5 flex items-center gap-3 rounded-xl border bg-secondary px-4 focus-within:ring-2 focus-within:ring-ring">
                   <Icon className="h-5 w-5 text-primary-glow" />
-<<<<<<< HEAD
                   <input type={k === "contato" ? "tel" : "text"} inputMode={k === "contato" ? "tel" : undefined} value={f[k]} maxLength={100} placeholder={ph} onChange={(e) => setF({ ...f, [k]: e.target.value })}
-=======
-                  <input value={f[k]} maxLength={100} placeholder={ph} onChange={(e) => setF({ ...f, [k]: e.target.value })}
->>>>>>> 46fd15a1e33b317259ac4b8a4ebd74ccd635075d
                     className="h-12 w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground" />
                 </div>
                 {err[k] && <span className="mt-1 block text-xs text-destructive">{err[k]}</span>}
               </label>
             ))}
           </div>
-<<<<<<< HEAD
           {submitError && <p role="alert" className="mt-4 text-sm text-destructive">{submitError}</p>}
-=======
->>>>>>> 46fd15a1e33b317259ac4b8a4ebd74ccd635075d
           <button type="submit" className="mt-8 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-gradient-primary font-display text-lg font-bold text-primary-foreground transition hover:-translate-y-0.5 hover:shadow-glow">
             Iniciar Jornada 🚀
           </button>
