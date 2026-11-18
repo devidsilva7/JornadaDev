@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { LoginScreen, type Player } from "@/components/game/LoginScreen";
+import { SplashScreen, type Player } from "@/components/game/LoginScreen";
 import type { AvatarLook } from "@/game/avatar";
 import { GameStageErrorBoundary } from "@/components/game/GameStageErrorBoundary";
 
+const loadCharacterSelection = () => import("@/components/game/CharacterSelection");
 const CharacterSelection = lazy(() =>
-  import("@/components/game/CharacterSelection").then((module) => ({
+  loadCharacterSelection().then((module) => ({
     default: module.CharacterSelection,
   })),
 );
@@ -102,11 +103,10 @@ function Index() {
         </motion.div>
       ) : (
         <motion.div key="login" exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.4 }}>
-          <LoginScreen
-            onStart={(newPlayer) => {
-              const safePlayer = normalizePlayer(newPlayer);
-              if (!safePlayer) return;
-              setPlayer(safePlayer);
+          <SplashScreen
+            preload={loadCharacterSelection}
+            onReady={() => {
+              setPlayer(createGuestPlayer());
               setStage("character");
             }}
           />
@@ -116,18 +116,11 @@ function Index() {
   );
 }
 
-function normalizePlayer(player: Player | null | undefined): Player | null {
-  if (!player || typeof player !== "object") return null;
-  const { nome, contato, local } = player;
-  if (typeof nome !== "string" || typeof contato !== "string" || typeof local !== "string")
-    return null;
-
-  const safePlayer = {
-    nome: nome.trim(),
-    contato: contato.trim(),
-    local: local.trim(),
-  };
-  return safePlayer.nome && safePlayer.contato && safePlayer.local ? safePlayer : null;
+/** Sem formulário: cada partida recebe um jogador visitante com identificador único. */
+function createGuestPlayer(): Player {
+  // Só dígitos: o ranking usa os dígitos do "contato" para saber quem já jogou.
+  const id = `${Date.now()}${Math.floor(Math.random() * 1e6)}`;
+  return { nome: "Dev", contato: id, local: "EEEP" };
 }
 
 function StageLoading({ label }: { label: string }) {
@@ -150,15 +143,14 @@ function StageFailure({ onBack }: { onBack: () => void }) {
       >
         <h1 className="font-display text-2xl font-bold">Não foi possível carregar esta etapa</h1>
         <p className="mt-3 text-sm text-white/65">
-          O formulário foi enviado, mas ocorreu um erro ao abrir a próxima tela. Volte e tente
-          novamente.
+          Ocorreu um erro ao abrir a próxima tela. Volte e tente novamente.
         </p>
         <button
           type="button"
           onClick={onBack}
           className="mt-6 rounded-xl bg-gradient-to-r from-violet-600 to-purple-500 px-5 py-3 font-semibold text-white"
         >
-          Voltar para identificação
+          Voltar ao início
         </button>
       </section>
     </main>
